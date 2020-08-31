@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from splinter import Browser
 import requests
 import pandas as pd
+import time
 
 
 def init_browser():
@@ -11,27 +12,31 @@ def init_browser():
 
 
 def scrape_info():
+    browser=init_browser()
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
-
+    # time.sleep(2)
     iterable_list=soup.find('li',class_='slide')
-
+    print(iterable_list)
+    time.sleep(2)
     # collect the latest News Title and Paragraph Text.
     # Assign the text to variables that you can reference later
     news = iterable_list.find('div', class_='content_title').get_text()
+    print(news)
+    time.sleep(3)
 
     paragraph=iterable_list.find('div', class_="article_teaser_body").get_text()
-    
+    print(paragraph)
     # close the browser
     # browser.quit()
 
-    return [news,paragraph]
+    # return [news,paragraph]
 
     # # JPL Mars Space Images - Featured Image
-def space_image():
-    browser=init_browser()
+# def space_image():
+#     browser=init_browser()
 
     # Visit the url for JPL Featured Space Image [here](https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars).
     featured_image_url='https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -48,14 +53,14 @@ def space_image():
 
     image=soup.find('img', class_="main_image").get('src')
 
-    image_url= f'https://www.jpl.nasa.gov/{image}'
+    mars_featured_image_url= f'https://www.jpl.nasa.gov/{image}'
 
     # close the browser
     # browser.quit()
-    return image_url
+    # return image_url
 
     # # MARS FACTS
-def mars_fact():
+# def mars_fact():
 
     # Visit the Mars Facts webpage [here](https://space-facts.com/mars/) and 
     facts_url='https://space-facts.com/mars/'
@@ -79,11 +84,11 @@ def mars_fact():
     result_table=df2.to_dict('records')
     # get_ipython().system('open table.html')
 
-    return result_table
+    # return result_table
 
 
-def space_image():
-    browser=init_browser()
+# def space_image():
+#     browser=init_browser()
 
     hemisphere_url='https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     # Retrieve page with the requests module
@@ -106,6 +111,13 @@ def space_image():
         browser.back()
         hemisphere_image_url.append({"title": title, "img_url":image_url})
         
+        mars_data={"news":news,
+                    "paragraph":paragraph,
+                    "image_url":mars_featured_image_url,
+                    "result_table":html_table,
+                    "hemisphere_image":hemisphere_image_url
+        }
     # browser.quit()
 
-    return hemisphere_image_url
+    return mars_data
+# scrape()
