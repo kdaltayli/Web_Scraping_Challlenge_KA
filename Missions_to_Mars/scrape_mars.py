@@ -18,17 +18,20 @@ def scrape_info():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     # time.sleep(2)
+
     iterable_list=soup.find('li',class_='slide')
     print(iterable_list)
-    time.sleep(2)
+    time.sleep(5)
+
     # collect the latest News Title and Paragraph Text.
     # Assign the text to variables that you can reference later
     news = iterable_list.find('div', class_='content_title').get_text()
     print(news)
-    time.sleep(3)
+    time.sleep(5)
 
     paragraph=iterable_list.find('div', class_="article_teaser_body").get_text()
     print(paragraph)
+    time.sleep(5)
     # close the browser
     # browser.quit()
 

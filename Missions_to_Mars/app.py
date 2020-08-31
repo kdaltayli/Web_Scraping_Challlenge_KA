@@ -22,6 +22,8 @@ def home():
 @app.route("/scrape")
 def scrape():
 
+    destination_data=mongo.db.mars_data
+
     #Run the scrape function
     mars_mission=scrape_mars.scrape_info()
    
